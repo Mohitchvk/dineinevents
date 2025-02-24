@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 import openai
 
-openai.api_key = st.secrets["openai"]["key"]  # Replace with your API key
+openai.api_key = "your-openai-api-key"  # Replace with your API key
 
 events = {
     "Monday": {
@@ -57,7 +57,7 @@ def get_suggestion(food_item, category):
         messages=[{"role": "system", "content": "You are a food and beverage pairing expert."},
                   {"role": "user", "content": prompt}]
     )
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0].message.content
 
 def main():
     st.markdown("<div style='text-align: center;'><img src='https://passageindia.com/wp-content/uploads/passagetoindia2.png' width='150'></div>", unsafe_allow_html=True)
