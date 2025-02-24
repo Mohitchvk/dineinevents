@@ -4,7 +4,7 @@ from datetime import datetime
 events = {
     "Monday": {
         "title": "Spice Symphony: Indian Curry & Wine Pairing Night",
-        "price": "$28 (Vegetarian) | $32 (Non-Vegetarian)",
+        "price": "\$32 (Non-Vegetarian) | \$32 (Non-Vegetarian)",
         "details": [
             "✨ Indulge in a curated dining experience where rich Indian flavors meet the perfect wine pairing.",
             "🍷 Sommelier-Selected Wine Pairing - Each dish is thoughtfully complemented with a perfectly matched wine.",
@@ -149,7 +149,7 @@ def main():
     
     if event:
         st.header(f" {event['title']}")
-        st.subheader(f" {event['price']}")
+        st.write(f" {event['price']}")
         st.write("### Event Highlights:")
         
         for detail in event["details"]:
