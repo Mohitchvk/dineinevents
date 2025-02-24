@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 import openai
 
-openai.api_key = "your-openai-api-key"  # Replace with your API key
+openai.api_key = st.secrets["openai"]["key"]  # Replace with your API key
 
 events = {
     "Monday": {
@@ -50,9 +50,10 @@ events = {
 }
 
 def get_suggestion(food_item, category):
+    client = openai.OpenAI()
     prompt = f"Suggest a perfect drink pairing for {food_item}, which is a {category} dish. Also, explain why the pairing works well."
     
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "system", "content": "You are a food and beverage pairing expert."},
                   {"role": "user", "content": prompt}]
