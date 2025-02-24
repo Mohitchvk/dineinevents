@@ -82,7 +82,7 @@ events = {
 
 def main():
     st.title("🍽 Weekly Special Events 🍽")
-    st.subheader("Premium Culinary Experiences at [Your Restaurant Name]")
+    st.subheader("Premium Culinary Experiences at Passage")
     
     # Get current day
     today = datetime.today().strftime('%A')
