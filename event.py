@@ -1,6 +1,9 @@
 import streamlit as st
 from datetime import datetime
 from openai import OpenAI
+import pytz
+
+eastern = pytz.timezone('US/Eastern')
 
 api_key = st.secrets["openai"]["key"] # Replace with your API key
 
@@ -14,7 +17,7 @@ events = {
     "Tuesday": {
         "title": "Royal Feast: Nawabi Biryani & Craft Beverage Night",
         "price": "$32 per person",
-        "hint": "Enter any rice dish of your choice (e.g., Hyderabadi Biryani, Veg Pulao), and we'll pair the best beverage!",
+        "hint": "Enter any rice dish of your choice (e.g., Chicken Biryani, Peas Pulao), and we'll pair the best beverage!",
         "category": "Shrimp Biryani"
     },
     "Wednesday": {
@@ -51,7 +54,7 @@ events = {
 
 def get_suggestion(food_item, category):
     client = OpenAI(api_key=api_key)
-    prompt = f"Suggest a perfect drink pairing for {food_item}, which is a {category} dish. Also, explain why the pairing works well."
+    prompt = f"Suggest a perfect drink pairing for {food_item}, which is a {category} dish. Also, explain why the pairing works well. Try to give unique reponse for each food almost all the food items here are with masala and spices so try to go deep into their  taste and give good suggestion"
     temperature = 0.3
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -64,7 +67,7 @@ def get_suggestion(food_item, category):
 def main():
     st.markdown("<div style='text-align: center;'><img src='https://passageindia.com/wp-content/uploads/passagetoindia2.png' width='150'></div>", unsafe_allow_html=True)
     
-    today = datetime.today().strftime('%A')
+    today = datetime.now(eastern).strftime('%A')
     event = events.get(today, None)
     
     if event:
