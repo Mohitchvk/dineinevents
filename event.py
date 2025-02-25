@@ -1,163 +1,89 @@
 import streamlit as st
 from datetime import datetime
+from openai import OpenAI
+
+api_key = st.secrets["openai"]["key"] # Replace with your API key
 
 events = {
     "Monday": {
         "title": "Spice Symphony: Indian Curry & Wine Pairing Night",
-        "price": "\$32 (Non-Vegetarian) | \$32 (Non-Vegetarian)",
-        "details": [
-            "✨ Indulge in a curated dining experience where rich Indian flavors meet the perfect wine pairing.",
-            "🍷 Sommelier-Selected Wine Pairing - Each dish is thoughtfully complemented with a perfectly matched wine.",
-            "🍹 Refined Alternatives - Enjoy a selection of artisanal mocktails or premium non-alcoholic beverages. "
-        ]
+        "price": "$32 Per person",
+        "hint": "Enter any curry of your choice (e.g., Butter Chicken, Paneer Tikka Masala), and we'll pair the perfect wine!",
+        "category": "Chicken Tikka Masala"
     },
     "Tuesday": {
         "title": "Royal Feast: Nawabi Biryani & Craft Beverage Night",
-        "price": "$40 per person",
-        "details": [
-            "Authentic Hyderabadi Dum Biryani with Salan & Raita",
-            "Galouti Kebabs – Mughlai delicacy",
-            "Tandoori Chicken Wings with house spice blend",
-            "Beverages: Lassi Trio (Mango, Rose, Salted), Kala Khatta Spritz"
-        ]
+        "price": "$32 per person",
+        "hint": "Enter any rice dish of your choice (e.g., Hyderabadi Biryani, Veg Pulao), and we'll pair the best beverage!",
+        "category": "Shrimp Biryani"
     },
     "Wednesday": {
-        "title": "Spirits & Spices: Indian-Inspired Cocktails & Tapas",
+        "title": "Spirits & Spices: Indian-Inspired Street Food & Cocktails",
         "price": "$50 per person",
-        "details": [
-            "Handcrafted Indian-inspired cocktails",
-            "Mango Masala Mule – Vodka, mango purée, house spice mix",
-            "Tandoori Tequila Twist – Smoked tequila with chili-lime salt",
-            "Tapas Platter: Samosa Chaat, Gobi Manchurian, Pani Puri Shots",
-            "Mocktails: Turmeric Honey Fizz, Masala Soda with Fresh Herbs"
-        ]
+        "hint": "Enter any tapas/snack of your choice (e.g., Samosa Chaat), and we'll pair the best cocktail!",
+        "category": "tapas"
     },
     "Thursday": {
-        "title": "Bollywood Night: Chaat & Mocktail Fiesta",
+        "title": "Bollywood Night: Indian-Inspired Street Food & Cocktails & Mocktail Fiesta",
         "price": "$35 per person",
-        "details": [
-            "Lively Bollywood ambiance with street food delights",
-            "Pav Bhaji Sliders – Spiced veggie mix in buttered buns",
-            "Dahi Puri Bombs – Crunchy, tangy, full of flavors",
-            "Masala Fries with Tamarind Mayo",
-            "Beverages: Jamun Mojito, Saffron-Pistachio Cold Brew"
-        ]
+        "hint": "Enter your favorite chaat dish (e.g., Dahi Puri, Pav Bhaji), and we'll suggest a perfect mocktail!",
+        "category": "Chole Bhature"
     },
     "Friday": {
         "title": "Tandoor Tales: Live Grill & Whiskey Appreciation Night",
         "price": "$55 per person",
-        "details": [
-            "Live grilling of smoky tandoori delicacies",
-            "Tandoori Lamb Chops – Grilled to perfection",
-            "Malai Chicken Tikka – Creamy, mildly spiced",
-            "Smoked Paneer Skewers",
-            "Beverages: Premium whiskeys, Cardamom-infused Old Fashioned"
-        ]
+        "hint": "Enter any tandoor item (e.g., Tandoori Chicken, Malai Paneer Tikka), and we'll match it with a whiskey!",
+        "category": "Chicken Tikka"
     },
     "Saturday": {
         "title": "The Maharaja Thali & Infused Elixirs",
         "price": "$60 per person",
-        "details": [
-            "Lavish 7-course thali experience",
-            "Dal Makhani, Shahi Paneer, Goat Curry",
-            "Garlic Naan, Saffron Rice, Raita",
-            "Desserts: Gulab Jamun & Paan Ice Cream",
-            "Beverages: Saffron-Ginger Spritz, Sparkling Rose Lassi"
-        ]
+        "hint": "Enter any dish you'd love in a thali (e.g., Dal Makhani, Goat Curry), and we'll find the best infused elixir!",
+        "category": "thali"
     },
     "Sunday": {
         "title": "Sweet Endings: Indian Dessert & Chai Pairing",
         "price": "$30 per person",
-        "details": [
-            "Decadent Indian dessert tasting",
-            "Rasmalai with Rose Chai",
-            "Gajar Halwa with Masala Chai",
-            "Paan Kulfi with Saffron Kahwa",
-            "Beverages: Chai-based lattes, Spiced hot chocolates"
-        ]
+        "hint": "Enter any dessert (e.g., Rasmalai, Gulab Jamun), and we'll pair it with a chai-based drink!",
+        "category": "dessert"
     }
 }
 
+def get_suggestion(food_item, category):
+    client = OpenAI(api_key=api_key)
+    prompt = f"Suggest a perfect drink pairing for {food_item}, which is a {category} dish. Also, explain why the pairing works well."
+    temperature = 0.3
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": "You are a food and beverage pairing expert."},
+                  {"role": "user", "content": prompt}],
+        temperature=temperature
+    )
+    return response.choices[0].message.content
+
 def main():
     st.markdown("<div style='text-align: center;'><img src='https://passageindia.com/wp-content/uploads/passagetoindia2.png' width='150'></div>", unsafe_allow_html=True)
-
-    # Adaptive CSS for Light & Dark Mode
-    st.markdown("""
-        <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --card-bg: #f8f9fa;
-            --btn-bg: #007BFF;
-            --btn-text: #ffffff;
-            --table-border: #dddddd;
-        }
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-color: #1e1e1e;
-                --text-color: #f1f1f1;
-                --card-bg: #2b2b2b;
-                --btn-bg: #008CBA;
-                --btn-text: #ffffff;
-                --table-border: #444;
-            }
-        }
-        .experience-card {
-            background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            font-size: 20px;
-            color: var(--text-color);
-        }
-        .book-btn {
-            font-size: 18px;
-            padding: 12px 20px;
-            width: 50%;
-            border-radius: 10px;
-            font-weight: bold;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            display: block;
-            margin: 20px auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid var(--table-border);
-            padding: 12px;
-            text-align: center;
-            color: var(--text-color);
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Display Tonight’s Experience
-    st.markdown(f"""
-        <div class="experience-card">
-            <h2>✨ Tonight's Premium Culinary Experience✨</h2>
-        </div>
-    """, unsafe_allow_html=True)
-
-    import pytz
-    eastern = pytz.timezone('US/Eastern')
-
-    # Get current day
-    today = datetime.now(eastern).strftime('%A')
+    
+    today = datetime.today().strftime('%A')
     event = events.get(today, None)
     
     if event:
-        st.header(f" {event['title']}")
-        st.write(f" {event['price']}")
-        st.write("### Event Highlights:")
+        st.header(f"{event['title']}")
+        st.subheader(f"{event['price']}")
+        st.write("### Select Your Dish:")
         
-        for detail in event["details"]:
-            st.write(f"✔️ {detail}")
+        st.write(f"_Hint: {event['hint']}_")
+        user_input = st.text_input("Enter your dish or type 'Auto' for a full recommendation:")
+        
+        if st.button("Get Pairing Suggestion"):
+            if user_input.strip():
+                suggestion = get_suggestion(user_input, event['category'])
+                st.write("### Suggested Pairing:")
+                st.write(suggestion)
+            else:
+                st.write("Please enter a dish or type 'Auto'.")
     else:
         st.write("No special events today. Check back soon!")
-    
+        
 if __name__ == "__main__":
     main()
