@@ -142,9 +142,11 @@ def main():
         </div>
     """, unsafe_allow_html=True)
 
-    
+    import pytz
+    eastern = pytz.timezone('US/Eastern')
+
     # Get current day
-    today = datetime.today().strftime('%A')
+    today = datetime.now(eastern).strftime('%A')
     event = events.get(today, None)
     
     if event:
