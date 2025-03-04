@@ -54,8 +54,7 @@ events = {
 
 def get_suggestion(food_item, category):
     client = OpenAI(api_key=api_key)
-    prompt = f"Suggest a perfect drink pairing specifically for {food_item}, which is a {category} dish. Ensure that the pairing is tailored only for {food_item} and does not substitute it with another dish. Also, explain why the pairing works well, considering its spices, heat level, and flavor complexity."
-
+    prompt = "Suggest a perfect drink pairing specifically for {food_item} (a {category} dish). Focus your recommendation solely on this exact dish, analyzing its unique flavor components like spice levels, protein type, cooking method, and dominant aromatics. Explain how the drink complements those particular elements without substituting the named dish."
     temperature = 0.3
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
