@@ -12,13 +12,13 @@ events = {
         "title": "Spice Symphony: Indian Curry & Wine Pairing Night",
         "price": "$32 Per person",
         "hint": "Enter any curry of your choice (e.g., Butter Chicken, Paneer Tikka Masala), and we'll pair the perfect wine!",
-        "category": "Chicken Tikka Masala"
+        "category": "Curry"
     },
     "Tuesday": {
         "title": "Royal Feast: Nawabi Biryani & Craft Beverage Night",
         "price": "$32 per person",
         "hint": "Enter any rice dish of your choice (e.g., Chicken Biryani, Peas Pulao), and we'll pair the best beverage!",
-        "category": "Shrimp Biryani"
+        "category": "Biryani"
     },
     "Wednesday": {
         "title": "Spirits & Spices: Indian-Inspired Street Food & Cocktails",
