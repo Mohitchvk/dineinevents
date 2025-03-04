@@ -54,7 +54,8 @@ events = {
 
 def get_suggestion(food_item, category):
     client = OpenAI(api_key=api_key)
-    prompt = f"Suggest a perfect drink pairing for {food_item}, which is a {category} dish. Also, explain why the pairing works well. Try to give unique reponse for each food almost all the food items here are with masala and spices so try to go deep into their  taste and give good suggestion"
+    prompt = f"Suggest a perfect drink pairing specifically for {food_item}, which is a {category} dish. Ensure that the pairing is tailored only for {food_item} and does not substitute it with another dish. Also, explain why the pairing works well, considering its spices, heat level, and flavor complexity."
+
     temperature = 0.3
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -67,7 +68,9 @@ def get_suggestion(food_item, category):
 def main():
     st.markdown("<div style='text-align: center;'><img src='https://passageindia.com/wp-content/uploads/passagetoindia2.png' width='150'></div>", unsafe_allow_html=True)
     
+    # today = datetime.today().strftime('%A')
     today = datetime.now(eastern).strftime('%A')
+    print(today)
     event = events.get(today, None)
     
     if event:
