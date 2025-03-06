@@ -29,7 +29,7 @@ events = {
     "Thursday": {
         "title": "Bollywood Night: Indian-Inspired Street Food & Cocktails & Mocktail Fiesta",
         "price": "$35 per person",
-        "hint": "Enter your favorite chaat dish (e.g., Dahi Puri, Pav Bhaji), and we'll suggest a perfect mocktail!",
+        "hint": "Enter your favorite chaat dish (e.g., Chole Bhature, Samosa Chaat), and we'll suggest a perfect mocktail!",
         "category": "Chole Bhature"
     },
     "Friday": {
